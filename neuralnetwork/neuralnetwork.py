@@ -92,6 +92,7 @@ class Model:
         self.loss=None
         self.lr=None
         self.epochs=None
+        self.loss_history=[]
         for i in lis:
             self.layers.append(i)
     def initialize(self,xtrain,loss,learningrate):
@@ -108,7 +109,7 @@ class Model:
         self.ytrain = y.reshape(-1, 1)
         self.epochs=epochs
         for i in range(self.epochs):
-            print(f"epochs == ",i+1,"//{self.epochs}")
+            print(f"epochs == ",i+1,f"/ {self.epochs}")
             ypred=x
             ztr=None
             for l in self.layers:
@@ -119,6 +120,7 @@ class Model:
             if self.loss == 'BCE':
                 cost=BCE(ypred,self.ytrain)
                 print(cost)
+            self.loss_history.append(cost)
             dz=(ypred-self.ytrain)
             for l in reversed(self.layers):
                 dz=l.update(dz,self.lr)
